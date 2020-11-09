@@ -1,4 +1,3 @@
-const topics = require("../data/test-data/topics");
 
 exports.up = function(knex) {
   console.log('creating the topics table');
