@@ -3,7 +3,7 @@ const {
   formatAuthor,
   formatTitle,
   createTitleRef,
-  formatComments
+  formatComments,
 } = require("../db/utils/data-manipulation");
 
 describe("formatted date", () => {
@@ -257,18 +257,14 @@ describe("createTitleRef", () => {
     });
   });
   test("does not mutate original array", () => {
-    const input = [
-      { title: "Running a Node App", article_id: 1 },
-    ]
-    createTitleRef(input)
-    expect(input).toEqual([
-      { title: "Running a Node App", article_id: 1 },
-    ]);
+    const input = [{ title: "Running a Node App", article_id: 1 }];
+    createTitleRef(input);
+    expect(input).toEqual([{ title: "Running a Node App", article_id: 1 }]);
   });
 });
 
-describe('formatComments', () => {
-  test('when given an array of one object returns an array of one object with title replaced by article_id', () => {
+describe("formatComments", () => {
+  test("when given an array of one object returns an array of one object with title replaced by article_id", () => {
     const commentInput = [
       {
         body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
@@ -276,9 +272,9 @@ describe('formatComments', () => {
         author: "grumpy19",
         votes: 7,
         created_at: 1478813209256,
-      }
-    ]
-    const titleInput = {'Making sense of Redux': 4}
+      },
+    ];
+    const titleInput = { "Making sense of Redux": 4 };
     expectedOutput = [
       {
         body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
@@ -286,17 +282,17 @@ describe('formatComments', () => {
         author: "grumpy19",
         votes: 7,
         created_at: 1478813209256,
-      }
-    ]
+      },
+    ];
     expect(formatComments(commentInput, titleInput)).toEqual(expectedOutput);
-  })
-  test('when given an array of multiple objects returns an array of multiple objects with title replaced by article_id', () => {
+  });
+  test("when given an array of multiple objects returns an array of multiple objects with title replaced by article_id", () => {
     const commentInput = [
       {
         body:
           "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
         belongs_to: "They're not exactly dogs, are they?",
-        created_by: 'butter_bridge',
+        created_by: "butter_bridge",
         votes: 16,
         created_at: 1511354163389,
       },
@@ -306,15 +302,18 @@ describe('formatComments', () => {
         author: "grumpy19",
         votes: 7,
         created_at: 1478813209256,
-      }
-    ]
-    const titleInput = {"They're not exactly dogs, are they?": 1, 'Making sense of Redux': 4}
+      },
+    ];
+    const titleInput = {
+      "They're not exactly dogs, are they?": 1,
+      "Making sense of Redux": 4,
+    };
     expectedOutput = [
       {
         body:
           "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
         article_id: 1,
-        created_by: 'butter_bridge',
+        created_by: "butter_bridge",
         votes: 16,
         created_at: 1511354163389,
       },
@@ -324,11 +323,11 @@ describe('formatComments', () => {
         author: "grumpy19",
         votes: 7,
         created_at: 1478813209256,
-      }
-    ]
+      },
+    ];
     expect(formatComments(commentInput, titleInput)).toEqual(expectedOutput);
-  })
-  test('check that formatComments does not mutate input', () => {
+  });
+  test("check that formatComments does not mutate input", () => {
     const commentInput = [
       {
         body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
@@ -336,10 +335,10 @@ describe('formatComments', () => {
         author: "grumpy19",
         votes: 7,
         created_at: 1478813209256,
-      }
-    ]
-    const titleInput = {'Making sense of Redux': 4}
-    formatComments(commentInput, titleInput)
+      },
+    ];
+    const titleInput = { "Making sense of Redux": 4 };
+    formatComments(commentInput, titleInput);
     expect(commentInput).toEqual([
       {
         body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
@@ -347,7 +346,7 @@ describe('formatComments', () => {
         author: "grumpy19",
         votes: 7,
         created_at: 1478813209256,
-      }
-    ])
-  })
-})
+      },
+    ]);
+  });
+});

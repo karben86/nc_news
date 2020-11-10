@@ -18,15 +18,6 @@ exports.formatAuthor = (array) => {
   });
 };
 
-exports.formatTitle = (array) => {
-  return array.map((obj) => {
-    const objCopy = { ...obj };
-    objCopy.title = objCopy.belongs_to;
-    delete objCopy.belongs_to;
-    return objCopy;
-  });
-};
-
 exports.createTitleRef = (array) => {
   const refObj = {};
   array.forEach((obj) => {
@@ -37,8 +28,8 @@ exports.createTitleRef = (array) => {
 };
 
 exports.formatComments = (commentData, titleRef) => {
-  return commentData.map(({belongs_to, ...restOfComments}) => {
-    const newComment = {...restOfComments, article_id: titleRef[belongs_to]};
+  return commentData.map(({ belongs_to, ...restOfComments }) => {
+    const newComment = { ...restOfComments, article_id: titleRef[belongs_to] };
     return newComment;
-  })
+  });
 };

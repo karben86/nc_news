@@ -9,9 +9,11 @@
     "seed": "knex seed:run",
     "seed-test": "NODE_ENV=test knex seed:run",
     "test": "jest",
+    "test-app": "npm run seed-test && jest app.test.js",
     "migrate-make": "knex migrate:make",
     "migrate-latest": "knex migrate:latest",
-    "migrate-rollback": "knex migrate:rollback"
+    "migrate-rollback": "knex migrate:rollback",
+    "query": "psql -f query.sql > query.txt"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,7 @@
   },
   "homepage": "https://github.com/northcoders/be-nc-news#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "knex": "^0.21.12",
     "pg": "^8.4.2"
   },
