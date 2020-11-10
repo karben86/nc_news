@@ -3,6 +3,7 @@ const {
   formatAuthor,
   formatTitle,
   createTitleRef,
+  formatComments
 } = require("../db/utils/data-manipulation");
 
 describe("formatted date", () => {
@@ -265,3 +266,88 @@ describe("createTitleRef", () => {
     ]);
   });
 });
+
+describe('formatComments', () => {
+  test('when given an array of one object returns an array of one object with title replaced by article_id', () => {
+    const commentInput = [
+      {
+        body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
+        belongs_to: "Making sense of Redux",
+        author: "grumpy19",
+        votes: 7,
+        created_at: 1478813209256,
+      }
+    ]
+    const titleInput = {'Making sense of Redux': 4}
+    expectedOutput = [
+      {
+        body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
+        article_id: 4,
+        author: "grumpy19",
+        votes: 7,
+        created_at: 1478813209256,
+      }
+    ]
+    expect(formatComments(commentInput, titleInput)).toEqual(expectedOutput);
+  })
+  test('when given an array of multiple objects returns an array of multiple objects with title replaced by article_id', () => {
+    const commentInput = [
+      {
+        body:
+          "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+        belongs_to: "They're not exactly dogs, are they?",
+        created_by: 'butter_bridge',
+        votes: 16,
+        created_at: 1511354163389,
+      },
+      {
+        body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
+        belongs_to: "Making sense of Redux",
+        author: "grumpy19",
+        votes: 7,
+        created_at: 1478813209256,
+      }
+    ]
+    const titleInput = {"They're not exactly dogs, are they?": 1, 'Making sense of Redux': 4}
+    expectedOutput = [
+      {
+        body:
+          "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+        article_id: 1,
+        created_by: 'butter_bridge',
+        votes: 16,
+        created_at: 1511354163389,
+      },
+      {
+        body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
+        article_id: 4,
+        author: "grumpy19",
+        votes: 7,
+        created_at: 1478813209256,
+      }
+    ]
+    expect(formatComments(commentInput, titleInput)).toEqual(expectedOutput);
+  })
+  test('check that formatComments does not mutate input', () => {
+    const commentInput = [
+      {
+        body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
+        belongs_to: "Making sense of Redux",
+        author: "grumpy19",
+        votes: 7,
+        created_at: 1478813209256,
+      }
+    ]
+    const titleInput = {'Making sense of Redux': 4}
+    formatComments(commentInput, titleInput)
+    expect(commentInput).toEqual([
+      {
+        body: "Nobis consequatur animi. Ullam nobis quaerat voluptates veniam.",
+        belongs_to: "Making sense of Redux",
+        author: "grumpy19",
+        votes: 7,
+        created_at: 1478813209256,
+      }
+    ])
+  })
+})
