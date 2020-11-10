@@ -21,7 +21,7 @@ exports.seed = function (knex) {
       return knex("topics").insert(topicData).returning("*");
     })
     .then(() => {
-      //  console.log(articleData)
+        console.log(articleData)
       const formattedDateArticleData = formatDates(articleData);
       return knex("articles").insert(formattedDateArticleData).returning("*");
     })

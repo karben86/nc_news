@@ -17,3 +17,21 @@ exports.formatAuthor = (array) => {
     return objCopy;
   });
 };
+
+exports.formatTitle = (array) => {
+  return array.map((obj) => {
+    const objCopy = { ...obj };
+    objCopy.title = objCopy.belongs_to;
+    delete objCopy.belongs_to;
+    return objCopy;
+  });
+};
+
+exports.createTitleRef = (array) => {
+  const refObj = {};
+  array.forEach((obj) => {
+    refObj[obj.title] = obj.article_id;
+  });
+
+  return refObj;
+};
