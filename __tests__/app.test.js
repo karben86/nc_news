@@ -22,8 +22,13 @@ describe("/api", () => {
     });
 
     //<--------------->ERROR HANDLING<--------------->
-    test('', () => {
-      
+    test('status 500 server not responding', () => {
+      return request(app)
+      .get('/api/topics')
+      .expect(500)
+      .then(({body}) => {
+        expect(body.msg).toBe('Internal Server Error');
+      })
     })
   });
 });
