@@ -24,10 +24,6 @@ exports.seed = function (knex) {
         knex("topics").insert(topicData).returning("*"),
       ]);
     })
-    // .then(() => {
-    //   // console.log(topicData)
-    //   return knex("topics").insert(topicData).returning("*");
-    // })
     .then(() => {
       const formattedDateArticleData = formatDates(articleData);
       return knex("articles").insert(formattedDateArticleData).returning("*");
@@ -39,7 +35,4 @@ exports.seed = function (knex) {
       formattedCommentData = formatDates(formattedCommentData)
       return knex("comments").insert(formattedCommentData).returning("*");
     })
-    // .then((res) => {
-    //   console.log(res);
-    // });
 };
