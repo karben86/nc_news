@@ -16,3 +16,7 @@ exports.updateArticle = (article_id, updatedValue, currentVotes) => {
     .update("votes", updatedValue + currentVotes)
     .returning("*");
 };
+
+exports.eraseArticle = (article_id) => {
+  return connection("articles").where({ article_id }).del();
+};
