@@ -1,4 +1,3 @@
-// extract any functions you are using to manipulate your data, into this file
 exports.formatDates = (array) => {
   const newArray = [];
   array.forEach((obj) => {

@@ -1,9 +1,39 @@
-const { fetchArticle, updateArticle, eraseArticle } = require("../models/articles-model");
+const { fetchArticles, fetchArticle, updateArticle, eraseArticle } = require("../models/articles-model");
+const { isValidTopic } = require("../models/topics-model");
+const { isValidAuthor } = require("../models/users-model");
+
+exports.getArticles = (req, res, next) => {
+  if (req.query.sort_by === undefined) req.query.sort_by = "created_at";
+  if (req.query.order === undefined) req.query.order = "desc";
+  fetchArticles(req.query.sort_by, req.query.order, req.query.author, req.query.topic)
+    .then((articles) => {
+      if (req.query.order !== "asc" && req.query.order !== "desc") return Promise.reject({status: 400, msg: "Bad Request"});
+      if (articles.length === 0) {
+        return Promise.all([articles, isValidTopic(req.query.topic), isValidAuthor(req.query.author)])
+      } else return [articles, true, true];
+    })
+    .then(([articles, checkTopic, checkAuthor]) => {
+      if (!checkTopic) {
+        return Promise.reject({
+          status: 404,
+          msg: "Topic Not Found"
+        })
+      }
+      if (!checkAuthor) {
+        return Promise.reject({
+          status: 404,
+          msg: "Author Not Found"
+        })
+      }
+      res.status(200).send({ articles });
+    })
+    .catch(next)
+};
 
 exports.getArticle = (req, res, next) => {
   fetchArticle(req.params.article_id)
-    .then((articles) => {
-      res.status(200).send({ articles });
+    .then((article) => {
+      res.status(200).send({ article });
     })
     .catch(next)
 };

@@ -8,10 +8,27 @@ exports.createNewComment = (newComment) => {
   };
 
   exports.fetchComments = (article_id, sort_by, order) => {
-    console.log(sort_by)
     return connection
     .select("*")
     .from("comments")
     .orderBy(sort_by, order)
     .where({article_id})
   }
+  
+  exports.fetchComment = (comment_id) => {
+    return connection
+    .select("*")
+    .from("comments")
+    .where({comment_id})
+  }
+
+  exports.updateComment = (comment_id, updatedValue, currentVotes) => {
+    return connection("comments")
+      .where({ comment_id })
+      .update("votes", updatedValue + currentVotes)
+      .returning("*");
+  };
+
+  exports.eraseComment = (comment_id) => {
+    return connection("comments").where({ comment_id }).del();
+  };

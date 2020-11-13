@@ -5,7 +5,17 @@ exports.fetchTopics = () => {
     .select("*")
     .from("topics")
     .then((topicsRes) => {
-      // console.log(res);
       return topicsRes;
     });
 };
+
+exports.isValidTopic = (topic) => {
+  if (topic === undefined) return true
+  return connection
+  .select("*")
+  .from("topics")
+  .where("slug", "=", topic)
+  .then((topicsRes) => {
+    return topicsRes.length !== 0;
+  });
+}

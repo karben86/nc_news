@@ -64,8 +64,6 @@ describe("formatted date", () => {
   });
 });
 
-//<-------------->FORMAT AUTHOR<-------------->
-
 describe("formatAuthor", () => {
   test("Test that formatAuthor returns a new array given an array as input", () => {
     const input = [];

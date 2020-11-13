@@ -29,9 +29,9 @@ exports.seed = function (knex) {
       return knex("articles").insert(formattedDateArticleData).returning("*");
     })
     .then((response) => {
-      const step1 = formatAuthor(commentData);
+      const formattedAuthor = formatAuthor(commentData);
       const commentRef = createTitleRef(response);
-      let formattedCommentData = formatComments(step1, commentRef);
+      let formattedCommentData = formatComments(formattedAuthor, commentRef);
       formattedCommentData = formatDates(formattedCommentData)
       return knex("comments").insert(formattedCommentData).returning("*");
     })

@@ -6,3 +6,14 @@ exports.fetchUser = (username) => {
     .from("users")
     .where({ username })
 };
+
+exports.isValidAuthor = (author) => {
+  if (author === undefined) return true
+  return connection
+  .select("*")
+  .from("users")
+  .where("username", "=", author)
+  .then((authorRes) => {
+    return authorRes.length !== 0;
+  });
+}
