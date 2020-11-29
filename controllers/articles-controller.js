@@ -1,15 +1,17 @@
-const { fetchArticles, fetchArticle, updateArticle, eraseArticle } = require("../models/articles-model");
+const { fetchArticles, fetchArticle, updateArticle, eraseArticle, countArticles } = require("../models/articles-model");
 const { isValidTopic } = require("../models/topics-model");
 const { isValidAuthor } = require("../models/users-model");
 
 exports.getArticles = (req, res, next) => {
   if (req.query.sort_by === undefined) req.query.sort_by = "created_at";
   if (req.query.order === undefined) req.query.order = "desc";
-  fetchArticles(req.query.sort_by, req.query.order, req.query.author, req.query.topic)
+  if (req.query.limit === undefined) req.query.limit = 10;
+  if (req.query.p === undefined) req.query.p = 1;
+  fetchArticles(req.query.sort_by, req.query.order, req.query.author, req.query.topic, req.query.limit, req.query.p)
     .then((articles) => {
-      if (req.query.order !== "asc" && req.query.order !== "desc") return Promise.reject({status: 400, msg: "Bad Request"});
+      if (req.query.order !== "asc" && req.query.order !== "desc" || isNaN(req.query.limit) || isNaN(req.query.p)) return Promise.reject({status: 400, msg: "Bad Request"});
       if (articles.length === 0) {
-        return Promise.all([articles, isValidTopic(req.query.topic), isValidAuthor(req.query.author)])
+        return Promise.all([articles, isValidTopic(req.query.topic), isValidAuthor(req.query.author)]);
       } else return [articles, true, true];
     })
     .then(([articles, checkTopic, checkAuthor]) => {
@@ -28,7 +30,7 @@ exports.getArticles = (req, res, next) => {
       res.status(200).send({ articles });
     })
     .catch(next)
-};
+  };
 
 exports.getArticle = (req, res, next) => {
   fetchArticle(req.params.article_id)
@@ -54,3 +56,10 @@ exports.deleteArticle = (req, res, next) => {
     res.sendStatus(204);
   });
 };
+
+exports.getCount = (req, res, next) => {
+  countArticles(req.query.author, req.query.topic)
+  .then((res) => {
+  console.log(res);
+  })
+}

@@ -1,6 +1,6 @@
 const connection = require("../db/data/connection");
 
-exports.fetchArticles = (sort_by, order, author, topic) => {
+exports.fetchArticles = (sort_by, order, author, topic, limit, p) => {
   return connection
     .select("articles.*")
     .from("articles")
@@ -16,7 +16,25 @@ exports.fetchArticles = (sort_by, order, author, topic) => {
         query.where("articles.topic", "=", topic)
       }
     })
+    .offset((p - 1) * limit)
+    .limit(limit)
 };
+
+exports.countArticles = (author, topic) => {
+  return connection
+    .select("*")
+    .from("articles")
+    .modify((query) => {
+      if (author) {
+        query.where("author", "=", author)
+      }
+      if (topic) {
+        query.where("topic", "=", topic)
+      }
+    })
+    .count("*")
+};
+
 
 exports.fetchArticle = (article_id) => {
   return connection

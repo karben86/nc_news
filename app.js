@@ -4,7 +4,6 @@ const apiRouter = require('./routes/apiRouter');
 const {handleInternalErrors, handlePSQLErrors, handleCustomErrors, send404} = require('./controllers/errorhandling')
 
 app.use(express.json());
-console.log(apiRouter.stack.filter(r => r.route))  // get all the paths)
 
 app.use('/api', apiRouter);
 app.all('/*', send404);

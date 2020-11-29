@@ -64,7 +64,7 @@ describe("/api", () => {
   describe("/articles", () => {
     test("GET responds with 200 when articles are requested and sorted by date in descending order by default", () => {
       return request(app)
-        .get("/api/articles")
+        .get("/api/articles?limit=34")
         .expect(200)
         .then((res) => {
           expect(res.body.articles).toEqual(expect.any(Array));
@@ -110,7 +110,7 @@ describe("/api", () => {
     });
     test("GET responds with 200 and the correctly filtered data when articles are requested by topic", () => {
       return request(app)
-        .get("/api/articles?topic=mitch")
+        .get("/api/articles?topic=mitch&&limit=34")
         .expect(200)
         .then((res) => {
           expect(res.body.articles).toEqual(expect.any(Array));
