@@ -12,8 +12,7 @@ const endpoints = {
     "/api/articles": ["POST", "GET"],
     "/api/articles/:article_id": ["DELETE", "PATCH", "GET"],
     "/api/articles/:article_id/comments": ["POST", "GET"],
-    "/api/comments/:comment_id": ["PATCH", "DELETE"],
-    "/api/users": ["GET"]
+    "/api/comments/:comment_id": ["PATCH", "DELETE"]
     }
 }
 

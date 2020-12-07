@@ -1,5 +1,4 @@
 const handlePSQLErrors = (error, req, res, next) => {
-    console.log(error)
     const badReqCodes = ['22P02','42703']
     if (badReqCodes.includes(error.code)){
         res.status(400).send({msg: "Bad Request"})
@@ -9,7 +8,6 @@ const handlePSQLErrors = (error, req, res, next) => {
 }
 
 const handleCustomErrors = (error, req, res, next) => {
-    console.log(error)
     if (error.status) {
         res.status(error.status).send({msg: error.msg})
     } else {
